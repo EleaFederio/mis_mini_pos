@@ -1,7 +1,8 @@
 import {Fragment} from "react";
-import {Table} from "react-bootstrap";
+import {Button, Table} from "react-bootstrap";
+import {Trash} from "react-bootstrap-icons";
 
-function SalesTable(){
+const SalesTable = (props) => {
     return (<Fragment>
         <Table bordered>
             <thead>
@@ -14,13 +15,24 @@ function SalesTable(){
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>2</td>
-                    <td>3</td>
-                    <td>4</td>
-                    <td>5</td>
-                </tr>
+            {
+                props.cart.map((cartItem) => (
+                    <tr>
+                        <td>{cartItem.name}</td>
+                        <td>1</td>
+                        <td>₱{cartItem.price}</td>
+                        <td>₱{(cartItem.price * 1).toFixed(2)}</td>
+                        <td>
+                            <Button
+                                variant={'danger'}
+                                size={'sm'}
+                            >
+                                <Trash/>
+                            </Button>
+                        </td>
+                    </tr>
+                ))
+            }
             </tbody>
         </Table>
     </Fragment>)

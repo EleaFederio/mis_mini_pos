@@ -1,31 +1,33 @@
-import {Fragment} from "react";
-import {Button, Card, Col, Container, Form, Row, Table} from "react-bootstrap";
+import {Fragment, useState} from "react";
+import {Button, Card, Col, Container, Form, Row} from "react-bootstrap";
 import SalesTable from "./cardComponents/salesTable";
 
-function ItemAndPrice(){
+const ItemAndPrice = (props) => {
+
+
     return (<Fragment>
         <Card>
             <Card.Header>Item and Price</Card.Header>
             <Card.Body>
-                <SalesTable/>
+                <SalesTable  cart={props.cart}/>
                 <hr className={'mt-5'}/>
             </Card.Body>
             <Container>
                 <Row>
                     <Col><b>TAX:</b></Col>
-                    <Col lg={2}><b>₱40.44</b></Col>
+                    <Col lg={2}><b>₱{props.summary.tax.toFixed(2)}</b></Col>
                 </Row>
                 <Row>
                     <Col><b>DISCOUNT:</b></Col>
-                    <Col lg={2}><b>₱40.44</b></Col>
+                    <Col lg={2}><b>₱{props.summary.discount.toFixed(2)}</b></Col>
                 </Row>
                 <Row>
                     <Col><b>SUB-TOTAL:</b></Col>
-                    <Col lg={2}><b>₱40.44</b></Col>
+                    <Col lg={2}><b>₱{props.summary.subTotal.toFixed(2)}</b></Col>
                 </Row>
                 <Row>
                     <Col><b>TOTAL AMOUNT:</b></Col>
-                    <Col lg={2}><b>₱40.44</b></Col>
+                    <Col lg={2}><b>₱{props.summary.total.toFixed(2)}</b></Col>
                 </Row>
                 <Row>
                     <Col lg={'6'}>
@@ -37,7 +39,7 @@ function ItemAndPrice(){
                 </Row>
                 <Row className={'mt-3 mb-3'}>
                     <Col>
-                        <Button variant={'danger'}>Cancel</Button>
+                        {/*<Button variant={'danger'}>Cancel</Button>*/}
                     </Col>
                     <Col lg={2}>
                         <Button variant={'primary'}>Pay</Button>
