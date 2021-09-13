@@ -37,15 +37,25 @@ function App() {
     }
 
     const addToCart = (productFromProp) => {
-        let hahaha = (cart => productFromProp.id === cart.id);
-        console.log(hahaha === true);
-        setTimeout(() => {
+        const check_index = cart.findIndex(item => item.id === productFromProp.id);
+        if(check_index !== -1){
+            cart[check_index].quantity++;
+            setCart(cart => [...cart]);
+        }else{
             setCart(cart => [...cart,  productFromProp]);
-        }, 2000);
-      console.log(cart);
+        }
+        console.log(cart);
     }
 
-
+    const setTotal = () => {
+        data = {
+            'tax'  : 0.00,
+            'discount' : 0.00,
+            'subTotal' : 0.00,
+            'total' : 0.00
+        };
+        setSummary(summary => [...summary, data])
+    }
 
     useEffect(() => {
         getProducts();

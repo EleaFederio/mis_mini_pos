@@ -19,9 +19,9 @@ const SalesTable = (props) => {
                 props.cart.map((cartItem) => (
                     <tr>
                         <td>{cartItem.name}</td>
-                        <td>1</td>
+                        <td>{cartItem.quantity}</td>
                         <td>₱{cartItem.price}</td>
-                        <td>₱{(cartItem.price * 1).toFixed(2)}</td>
+                        <td>₱{(cartItem.price * cartItem.quantity).toFixed(2)}</td>
                         <td>
                             <Button
                                 variant={'danger'}

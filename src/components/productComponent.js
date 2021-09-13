@@ -17,6 +17,7 @@ const ProductComponent = (props) =>{
                                 'id' : props.product.id,
                                 'name' : props.product.name,
                                 'description' : props.product.description,
+                                'quantity' : 1,
                                 'category_id' : props.product.category_id,
                                 'price' : props.product.price
                             })}
