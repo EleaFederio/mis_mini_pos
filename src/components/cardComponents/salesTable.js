@@ -26,6 +26,7 @@ const SalesTable = (props) => {
                             <Button
                                 variant={'danger'}
                                 size={'sm'}
+                                onClick={() => props.deleteProduct(cartItem.id)}
                             >
                                 <Trash/>
                             </Button>

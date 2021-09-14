@@ -9,25 +9,28 @@ const ItemAndPrice = (props) => {
         <Card>
             <Card.Header>Item and Price</Card.Header>
             <Card.Body>
-                <SalesTable  cart={props.cart}/>
+                <SalesTable
+                    cart={props.cart}
+                    deleteProduct={props.deleteProduct}
+                />
                 <hr className={'mt-5'}/>
             </Card.Body>
             <Container>
                 <Row>
                     <Col><b>TAX:</b></Col>
-                    <Col lg={2}><b>₱{props.summary.tax.toFixed(2)}</b></Col>
+                    <Col lg={3}><b>₱{props.summary.tax.toFixed(2).toLocaleString()}</b></Col>
                 </Row>
                 <Row>
                     <Col><b>DISCOUNT:</b></Col>
-                    <Col lg={2}><b>₱{props.summary.discount.toFixed(2)}</b></Col>
+                    <Col lg={3}><b>₱{props.summary.discount.toFixed(2)}</b></Col>
                 </Row>
                 <Row>
                     <Col><b>SUB-TOTAL:</b></Col>
-                    <Col lg={2}><b>₱{props.summary.subTotal.toFixed(2)}</b></Col>
+                    <Col lg={3}><b>₱{props.summary.subTotal.toFixed(2).toLocaleString()}</b></Col>
                 </Row>
                 <Row>
                     <Col><b>TOTAL AMOUNT:</b></Col>
-                    <Col lg={2}><b>₱{props.summary.total.toFixed(2)}</b></Col>
+                    <Col lg={3}><b>₱{props.summary.total.toFixed(2)}</b></Col>
                 </Row>
                 <Row>
                     <Col lg={'6'}>

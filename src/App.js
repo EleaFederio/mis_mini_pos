@@ -44,17 +44,30 @@ function App() {
         }else{
             setCart(cart => [...cart,  productFromProp]);
         }
+        setTotal();
         console.log(cart);
     }
 
+    const deleteProduct = (productId) => {
+        const newProduct = cart.filter((item) => item.id !== productId);
+        setCart(newProduct);
+    }
+
     const setTotal = () => {
-        data = {
-            'tax'  : 0.00,
+        let subTotal = 0.0;
+        console.log(cart);
+        cart.map((item) => (
+           subTotal = subTotal + (item.price * item.quantity),
+            console.log(subTotal)
+        ));
+        let tax = subTotal * 0.12;
+        const data = {
+            'tax'  : tax,
             'discount' : 0.00,
-            'subTotal' : 0.00,
-            'total' : 0.00
+            'subTotal' : subTotal,
+            'total' : subTotal + tax
         };
-        setSummary(summary => [...summary, data])
+        setSummary(data);
     }
 
     useEffect(() => {
@@ -84,7 +97,11 @@ function App() {
                     </Container>
                 </Col>
                 <Col sm={5}>
-                    <ItemAndPrice cart={cart} summary={summary}/>
+                    <ItemAndPrice
+                        cart={cart}
+                        deleteProduct={deleteProduct}
+                        summary={summary}
+                    />
                 </Col>
             </Row>
         </Container>
