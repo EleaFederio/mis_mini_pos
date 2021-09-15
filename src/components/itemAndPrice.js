@@ -36,7 +36,12 @@ const ItemAndPrice = (props) => {
                     <Col lg={'6'}>
                         <Form.Group className={'mt-4'}>
                             <Form.Label>Fee</Form.Label>
-                            <Form.Control type={'text'} placeholder={'Enter Amount'} />
+                            <Form.Control
+                                type={'text'}
+                                value={props.payment}
+                                onChange={(e) => props.setPayment(e.target.value)}
+                                placeholder={'Enter Amount'}
+                            />
                         </Form.Group>
                     </Col>
                 </Row>
@@ -45,7 +50,13 @@ const ItemAndPrice = (props) => {
                         {/*<Button variant={'danger'}>Cancel</Button>*/}
                     </Col>
                     <Col lg={2}>
-                        <Button variant={'primary'}>Pay</Button>
+                        <Button
+                            onClick={() => props.payCash(3000)}
+                            variant={'primary'}
+                            disabled={props.payment === ''}
+                        >
+                            Pay
+                        </Button>
                     </Col>
                 </Row>
             </Container>

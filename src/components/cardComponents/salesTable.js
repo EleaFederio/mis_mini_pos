@@ -17,7 +17,7 @@ const SalesTable = (props) => {
             <tbody>
             {
                 props.cart.map((cartItem) => (
-                    <tr>
+                    <tr key={cartItem.id}>
                         <td>{cartItem.name}</td>
                         <td>{cartItem.quantity}</td>
                         <td>₱{cartItem.price}</td>

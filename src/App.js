@@ -11,12 +11,13 @@ function App() {
 
     const [products, setProducts] = useState([]);
     const [cart, setCart] = useState([]);
+    const [payment, setPayment] = useState('');
     const [summary, setSummary] = useState({
         'tax'  : 0.00,
         'discount' : 0.00,
         'subTotal' : 0.00,
         'total' : 0.00
-    })
+    });
 
     const getProducts = () => {
         axios.get('http://127.0.0.1:8000/api/product')
@@ -41,10 +42,13 @@ function App() {
         if(check_index !== -1){
             cart[check_index].quantity++;
             setCart(cart => [...cart]);
+            setTotal();
         }else{
             setCart(cart => [...cart,  productFromProp]);
+            setTotal();
         }
-        setTotal();
+        console.log('add to cart:')
+        console.log(summary);
         console.log(cart);
     }
 
@@ -55,10 +59,10 @@ function App() {
 
     const setTotal = () => {
         let subTotal = 0.0;
-        console.log(cart);
+        console.log('set total: ')
+        console.log(summary);
         cart.map((item) => (
-           subTotal = subTotal + (item.price * item.quantity),
-            console.log(subTotal)
+            subTotal = subTotal + (item.price * item.quantity)
         ));
         let tax = subTotal * 0.12;
         const data = {
@@ -70,8 +74,36 @@ function App() {
         setSummary(data);
     }
 
+    const payCash = (money) => {
+        console.log('pay cash');
+        let product_list = [];
+        cart.map((cart_item) => (
+            product_list.push(cart_item.id)
+        ));
+        const data = {
+            'payment' : payment,
+            'totalPrice' : summary.subTotal,
+            'products' : product_list
+        }
+        console.log('pay cash process');
+        console.log(data);
+        if(axios.post('http://127.0.0.1:8000/api/transaction/add', data)){
+            setCart([])
+            setSummary({
+                'tax'  : 0.00,
+                'discount' : 0.00,
+                'subTotal' : 0.00,
+                'total' : 0.00
+            });
+            setPayment('');
+        }
+    }
+
     useEffect(() => {
         getProducts();
+        console.log('use effect');
+        return setTotal;
+        // setTotal();
     }, []);
 
   return (
@@ -101,6 +133,9 @@ function App() {
                         cart={cart}
                         deleteProduct={deleteProduct}
                         summary={summary}
+                        setPayment={setPayment}
+                        payment={payment}
+                        payCash={payCash}
                     />
                 </Col>
             </Row>
