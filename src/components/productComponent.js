@@ -4,7 +4,7 @@ import {Button, Card, Col} from "react-bootstrap";
 const ProductComponent = (props) =>{
     return (<Fragment>
         <Col lg={4}>
-            <Card>
+            <Card className={'mt-3'}>
                 <Card.Img src={'https://davaogroceriesonline.com/wp-content/uploads/2020/11/Screen-Shot-2020-11-06-at-11.32.27-AM.png'} />
                 <Card.Body>
                     <h5 style={{marginBottom: 0}}>{props.product.name}</h5>

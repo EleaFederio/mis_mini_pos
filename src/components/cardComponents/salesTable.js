@@ -20,7 +20,7 @@ const SalesTable = (props) => {
                     <tr key={cartItem.id}>
                         <td>{cartItem.name}</td>
                         <td>{cartItem.quantity}</td>
-                        <td>₱{cartItem.price}</td>
+                        <td>₱{(cartItem.price * 1).toFixed(2)}</td>
                         <td>₱{(cartItem.price * cartItem.quantity).toFixed(2)}</td>
                         <td>
                             <Button

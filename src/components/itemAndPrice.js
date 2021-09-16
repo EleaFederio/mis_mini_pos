@@ -47,13 +47,19 @@ const ItemAndPrice = (props) => {
                 </Row>
                 <Row className={'mt-3 mb-3'}>
                     <Col>
-                        {/*<Button variant={'danger'}>Cancel</Button>*/}
+                        <Button
+                            variant={'danger'}
+                            onClick={props.cancelTransaction}
+                            disabled={props.cart.length === 0}
+                        >
+                            Cancel
+                        </Button>
                     </Col>
                     <Col lg={2}>
                         <Button
                             onClick={() => props.payCash(3000)}
                             variant={'primary'}
-                            disabled={props.payment === ''}
+                            disabled={ props.payment <= props.summary.total}
                         >
                             Pay
                         </Button>

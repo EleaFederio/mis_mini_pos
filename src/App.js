@@ -42,36 +42,17 @@ function App() {
         if(check_index !== -1){
             cart[check_index].quantity++;
             setCart(cart => [...cart]);
-            setTotal();
         }else{
             setCart(cart => [...cart,  productFromProp]);
-            setTotal();
         }
-        console.log('add to cart:')
+        // console.log('add to cart:')
         console.log(summary);
-        console.log(cart);
+        // console.log(cart);
     }
 
     const deleteProduct = (productId) => {
         const newProduct = cart.filter((item) => item.id !== productId);
         setCart(newProduct);
-    }
-
-    const setTotal = () => {
-        let subTotal = 0.0;
-        console.log('set total: ')
-        console.log(summary);
-        cart.map((item) => (
-            subTotal = subTotal + (item.price * item.quantity)
-        ));
-        let tax = subTotal * 0.12;
-        const data = {
-            'tax'  : tax,
-            'discount' : 0.00,
-            'subTotal' : subTotal,
-            'total' : subTotal + tax
-        };
-        setSummary(data);
     }
 
     const payCash = (money) => {
@@ -99,12 +80,34 @@ function App() {
         }
     }
 
+    const cancelTransaction = () => {
+        setCart([])
+        setSummary({
+            'tax'  : 0.00,
+            'discount' : 0.00,
+            'subTotal' : 0.00,
+            'total' : 0.00
+        });
+        setPayment('');
+    }
+
     useEffect(() => {
         getProducts();
-        console.log('use effect');
-        return setTotal;
-        // setTotal();
-    }, []);
+        let subTotal = 0.0;
+        console.log('set total: ')
+        console.log(summary);
+        cart.map((item) => (
+            subTotal = subTotal + (item.price * item.quantity)
+        ));
+        let tax = subTotal * 0.12;
+        const data = {
+            'tax'  : tax,
+            'discount' : 0.00,
+            'subTotal' : subTotal,
+            'total' : subTotal + tax
+        };
+        setSummary(data);
+    }, [cart]);
 
   return (
     <div>
@@ -136,6 +139,7 @@ function App() {
                         setPayment={setPayment}
                         payment={payment}
                         payCash={payCash}
+                        cancelTransaction={cancelTransaction}
                     />
                 </Col>
             </Row>
