@@ -18,9 +18,11 @@ function App() {
         'subTotal' : 0.00,
         'total' : 0.00
     });
+    const url = 'http://127.0.0.1:8000';
+    // const url = 'https://mis-pos.herokuapp.com';
 
     const getProducts = () => {
-        axios.get('https://mis-pos.herokuapp.com/api/product')
+        axios.get(url + '/api/product')
             .then(res => {
                 setProducts(res.data.data);
             }).catch(err => {
@@ -59,7 +61,11 @@ function App() {
         console.log('pay cash');
         let product_list = [];
         cart.map((cart_item) => (
-            product_list.push(cart_item.id)
+            // console.log(cart_item)
+            product_list.push({
+                "item" : cart_item.id,
+                "quantity" : cart_item.quantity
+            })
         ));
         const data = {
             'payment' : payment,
@@ -68,7 +74,7 @@ function App() {
         }
         console.log('pay cash process');
         console.log(data);
-        if(axios.post('https://mis-pos.herokuapp.com/api/transaction/add', data)){
+        if(axios.post(url + '/api/transaction/add', data)){
             setCart([])
             setSummary({
                 'tax'  : 0.00,
