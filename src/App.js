@@ -20,7 +20,7 @@ function App() {
     });
 
     const getProducts = () => {
-        axios.get('http://127.0.0.1:8000/api/product')
+        axios.get('https://mis-pos.herokuapp.com/api/product')
             .then(res => {
                 setProducts(res.data.data);
             }).catch(err => {
@@ -87,7 +87,7 @@ function App() {
         }
         console.log('pay cash process');
         console.log(data);
-        if(axios.post('http://127.0.0.1:8000/api/transaction/add', data)){
+        if(axios.post('https://mis-pos.herokuapp.com/api/transaction/add', data)){
             setCart([])
             setSummary({
                 'tax'  : 0.00,
