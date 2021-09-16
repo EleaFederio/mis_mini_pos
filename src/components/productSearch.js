@@ -23,7 +23,7 @@ const ProductSearch = (props) => {
                     />
                 </Col>
                 <Col lg={2}>
-                    <Button variant={'primary'} onClick={() => props.searchProduct('http://127.0.0.1:8000/api/product/search/' + searchUrl)}>Search</Button>
+                    <Button variant={'primary'} onClick={() => props.searchProduct('https://mis-pos.herokuapp.com/api/product/search/' + searchUrl)}>Search</Button>
                 </Col>
                 <Col lg={2}/>
                 <Col lg={3}>
