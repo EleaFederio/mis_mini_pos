@@ -1,4 +1,4 @@
-import {Fragment, useState} from "react";
+import {Fragment} from "react";
 import {Button, Card, Col, Container, Form, Row} from "react-bootstrap";
 import SalesTable from "./cardComponents/salesTable";
 
