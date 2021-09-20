@@ -17,8 +17,8 @@ function Main() {
         'subTotal' : 0.00,
         'total' : 0.00
     });
-    const url = 'http://127.0.0.1:8000';
-    // const url = 'https://mis-pos.herokuapp.com';
+    // const url = 'http://127.0.0.1:8000';
+    const url = 'https://mis-pos.herokuapp.com';
 
     const getProducts = () => {
         axios.get(url + '/api/product')
