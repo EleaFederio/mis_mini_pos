@@ -5,11 +5,12 @@ import axios from "axios";
 
 const TransactionList = () => {
 
-    const url = 'http://127.0.0.1:8000/api/transactions';
+    const url = 'http://127.0.0.1:8000';
+    // const url = 'https://mis-pos.herokuapp.com';
     const [transactions, setTransactions] = useState([]);
 
     const getTransactions = () => {
-        axios.get(url)
+        axios.get(url + '/api/transactions')
             .then(res => {
                 setTransactions(res.data)
                 console.log(transactions)
