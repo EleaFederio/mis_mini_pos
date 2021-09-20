@@ -38,18 +38,24 @@ const TransactionList = () => {
                              <Accordion.Body>
                                  <Row>
                                      <Col>
-                                         <p style={{marginBottom: 0}}><b>Tax: </b>{(transaction.total * 0.12).toFixed(2)}</p>
+                                         <p style={{marginBottom: 0}}><b>Tax: </b>₱{(transaction.total * 0.12).toFixed(2)}</p>
                                      </Col>
                                      <Col>
-                                         <p style={{marginBottom: 0}}><b>Sub Total: </b>{transaction.total}</p>
+                                         <p style={{marginBottom: 0}}><b>Sub Total: </b>₱{transaction.sub_total}</p>
+                                     </Col>
+                                     <Col>
+                                         <p style={{marginBottom: 0}}><b>Total: </b>₱{transaction.total}</p>
                                      </Col>
                                  </Row>
                                  <Row>
                                      <Col>
-                                         <p><b>Payment: </b>{transaction.payment}</p>
+                                         <p><b>Payment: </b>₱{transaction.payment}</p>
                                      </Col>
                                      <Col>
-
+                                         <p><b>Change: </b>₱{transaction.change}</p>
+                                     </Col>
+                                     <Col>
+                                         <p><b>Date: </b>{transaction.created_at}</p>
                                      </Col>
                                  </Row>
                                  <Row>
@@ -69,6 +75,9 @@ const TransactionList = () => {
                                                         </p>
                                                         <p style={{marginBottom: 0}}>
                                                             <b>Quantity :</b> {product_item.quantity}pcs
+                                                        </p>
+                                                        <p style={{marginBottom: 0}}>
+                                                            <b>Total :</b> ₱{product_item.total}
                                                         </p>
                                                     </Card.Body>
                                                 </Card>
