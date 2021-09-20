@@ -4,12 +4,6 @@ import SalesTable from "./cardComponents/salesTable";
 
 const ItemAndPrice = (props) => {
 
-    useEffect(() => {
-        // console.log(props.payment <= props.summary.total)
-        console.log(props.summary.total)
-        console.log(props.summary.total.toFixed(2) >= props.payment )
-    })
-
     return (
         <Fragment>
             <Card>
@@ -65,7 +59,7 @@ const ItemAndPrice = (props) => {
                             <Button
                                 onClick={() => props.payCash(3000)}
                                 variant={'primary'}
-                                disabled={ !(props.payment >= props.summary.total)}
+                                disabled={ props.payment == '' || props.summary.total == 0 ? true : !(props.payment >= props.summary.total)}
                             >
                                 Pay
                             </Button>

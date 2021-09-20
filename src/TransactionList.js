@@ -62,7 +62,7 @@ const TransactionList = () => {
                                  <Row>
                                      {
                                          transaction.product.map((product_item) => (
-                                            <Col lg={4}>
+                                            <Col lg={4} className={'mt-2'}>
                                                 <Card>
                                                     <Card.Header>
                                                         <b>{product_item.name}</b>
