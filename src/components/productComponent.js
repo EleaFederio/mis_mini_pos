@@ -1,5 +1,5 @@
 import {Fragment} from "react";
-import {Button, Card, Col} from "react-bootstrap";
+import {Badge, Button, Card, Col} from "react-bootstrap";
 
 const ProductComponent = (props) =>{
     return (<Fragment>
@@ -7,9 +7,16 @@ const ProductComponent = (props) =>{
             <Card className={'mt-3'}>
                 <Card.Img src={'https://davaogroceriesonline.com/wp-content/uploads/2020/11/Screen-Shot-2020-11-06-at-11.32.27-AM.png'} />
                 <Card.Body>
+                    <Badge  bg={'info'}>{props.product.category}</Badge>
                     <h5 style={{marginBottom: 0}}>{props.product.name}</h5>
                     <p style={{marginBottom: 0}}>{props.product.description}</p>
-                    <h1 style={{marginBottom: 0}}><b>₱{props.product.price}</b></h1>
+                    <h1
+                        style={{
+                            marginBottom: 0,
+                            color: 'red',
+                            paddingBottom: 0
+                        }}
+                    ><b>₱{props.product.price}</b></h1>
                     <div className={'d-grid gap-2'}>
                         <Button
                             size={'sm'}
