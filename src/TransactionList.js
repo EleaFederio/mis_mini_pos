@@ -42,10 +42,10 @@ const TransactionList = () => {
                                          <p style={{marginBottom: 0}}><b>Tax: </b>₱{(transaction.total * 0.12).toFixed(2)}</p>
                                      </Col>
                                      <Col>
-                                         <p style={{marginBottom: 0}}><b>Sub Total: </b>₱{transaction.sub_total}</p>
+                                         <p style={{marginBottom: 0}}><b>Sub Total: </b>₱{transaction.total}</p>
                                      </Col>
                                      <Col>
-                                         <p style={{marginBottom: 0}}><b>Total: </b>₱{transaction.total}</p>
+                                         <p style={{marginBottom: 0}}><b>Total: </b>₱{transaction.sub_total}</p>
                                      </Col>
                                  </Row>
                                  <Row>
