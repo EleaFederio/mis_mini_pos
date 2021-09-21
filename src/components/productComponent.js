@@ -5,7 +5,7 @@ const ProductComponent = (props) =>{
     return (<Fragment>
         <Col lg={4}>
             <Card className={'mt-3'}>
-                <Card.Img src={'https://davaogroceriesonline.com/wp-content/uploads/2020/11/Screen-Shot-2020-11-06-at-11.32.27-AM.png'} />
+                <Card.Img src={'https://upload.wikimedia.org/wikipedia/commons/7/75/No_image_available.png'} />
                 <Card.Body>
                     <Badge  bg={'info'}>{props.product.category}</Badge>
                     <h5 style={{marginBottom: 0}}>{props.product.name}</h5>
