@@ -2,12 +2,11 @@ import {Fragment, useEffect, useState} from "react";
 import Header from "./components/header";
 import {Button, Card, Col, Container, Form, Row} from "react-bootstrap";
 import axios from "axios";
-import data from "bootstrap/js/src/dom/data";
 
 const Add = () => {
 
-    // const url = 'http://127.0.0.1:8000';
-    const url = 'https://mis-pos.herokuapp.com';
+    const url = 'http://127.0.0.1:8000';
+    // const url = 'https://mis-pos.herokuapp.com';
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState(0.0);
@@ -47,7 +46,7 @@ const Add = () => {
 
     useEffect(() => {
         getCategories()
-    }, [])
+    }, [categories])
 
     return <Fragment>
         <Header/>
