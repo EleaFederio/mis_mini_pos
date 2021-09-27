@@ -5,8 +5,8 @@ import axios from "axios";
 
 const Add = () => {
 
-    const url = 'http://127.0.0.1:8000';
-    // const url = 'https://mis-pos.herokuapp.com';
+    // const url = 'http://127.0.0.1:8000';
+    const url = 'https://mis-pos.herokuapp.com';
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState(0.0);

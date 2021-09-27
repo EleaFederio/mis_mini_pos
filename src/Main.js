@@ -11,7 +11,8 @@ function Main() {
 
     const [products, setProducts] = useState([
     ]);
-    const productUrl = 'http://127.0.0.1:8000/api/product';
+    // const productUrl = 'http://127.0.0.1:8000/api/product';
+    const productUrl = 'https://mis-pos.herokuapp.com/api/product';
     const [cart, setCart] = useState([]);
     const [payment, setPayment] = useState('');
     const [summary, setSummary] = useState({
@@ -20,9 +21,9 @@ function Main() {
         'subTotal' : 0.00,
         'total' : 0.00
     });
-    const [productEndPoint, setProductEndPoint] = useState('http://127.0.0.1:8000/api/product/?page=2');
-    const url = 'http://127.0.0.1:8000';
-    // const url = 'https://mis-pos.herokuapp.com';
+    const [productEndPoint, setProductEndPoint] = useState(productUrl);
+    // const url = 'http://127.0.0.1:8000';
+    const url = 'https://mis-pos.herokuapp.com';
 
     const getProducts = () => {
         axios.get(productEndPoint)
