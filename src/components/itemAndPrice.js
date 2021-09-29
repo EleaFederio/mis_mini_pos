@@ -1,4 +1,4 @@
-import {Fragment, useEffect} from "react";
+import {Fragment} from "react";
 import {Button, Card, Col, Container, Form, Row} from "react-bootstrap";
 import SalesTable from "./cardComponents/salesTable";
 
@@ -59,7 +59,7 @@ const ItemAndPrice = (props) => {
                             <Button
                                 onClick={() => props.payCash(3000)}
                                 variant={'primary'}
-                                disabled={ props.payment == '' || props.summary.total == 0 ? true : !(props.payment >= props.summary.total)}
+                                disabled={ props.payment === '' || props.summary.total === 0 ? true : !(props.payment >= props.summary.total)}
                             >
                                 Pay
                             </Button>
