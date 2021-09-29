@@ -21,7 +21,12 @@ const ProductSearch = (props) => {
                 <Col lg={2}>
                     <Button 
                     variant={'primary'} 
-                    onClick={() => props.searchProduct(props.url + '/api/product/search/' + searchUrl)}
+                    onClick={
+                        searchUrl === '' ?
+                        () => props.getProducts()
+                        :
+                        () => props.searchProduct(props.url + '/api/product/search/' + searchUrl)
+                    }
                     >
                         Search
                     </Button>

@@ -37,10 +37,12 @@ function Main() {
     }
 
     const searchProduct = (url) => {
-        // console.log(url);
+        console.log(url);
         axios.get(url)
             .then(res => {
-                setProducts(res.data);
+                setProducts(res);
+                console.log(res);
+                console.log(products);
             }).catch(err => {
             // console.log(err)
         });
@@ -140,7 +142,7 @@ function Main() {
             <Container fluid className={'mt-4'}>
                 <Row>
                     <Col sm={7}>
-                        <ProductSearch searchProduct={searchProduct} url={url} />
+                        <ProductSearch searchProduct={searchProduct} getProducts={getProducts} url={url} />
                         <Container>
                             <Row className={'mt-5'}>
                                 {
