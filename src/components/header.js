@@ -11,6 +11,7 @@ function Header(){
                     <Nav className={'me-auto'}>
                         <Nav.Link as={Link} to={'/add'}>Add</Nav.Link>
                         <Nav.Link as={Link} to={'/transactions'}>Transactions</Nav.Link>
+                        <Nav.Link as={Link} to={'/reports'}>Reports</Nav.Link>
                     </Nav>
                     <Nav>
                         <Nav.Link>
