@@ -49,7 +49,6 @@ const Add = () => {
     }, [])
 
     return <Fragment>
-        <Header/>
         <Container className={'h-100'}>
             <Row className={'justify-content-center align-items-center'}>
                 <Col md={5}>

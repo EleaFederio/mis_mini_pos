@@ -138,7 +138,6 @@ function Main() {
 
     return (
         <div>
-            <Header/>
             <Container fluid className={'mt-4'}>
                 <Row>
                     <Col sm={7}>

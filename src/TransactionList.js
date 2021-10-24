@@ -26,7 +26,6 @@ const TransactionList = () => {
 
     return (
       <Fragment>
-          <Header/>
           <h1  className={'text-center mt-3'}>Transactions List</h1>
           <Container className={'mt-5'}>
               {

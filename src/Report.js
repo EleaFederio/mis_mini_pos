@@ -1,19 +1,44 @@
-import {Container} from "react-bootstrap";
-import {Fragment, useEffect, useState} from "react";
+
+import {Fragment} from "react";
 import Header from "./components/header";
-import axios from "axios";
-import {Bar, Line, Pie, Utils} from "react-chartjs-2";
+
+import BarChart from "./components/BarChart";
+import {Card, Col, Container, Row} from "react-bootstrap";
 
 
-const Report = (props) => {
+const Report = () => {
 
 
 
 
     return (
         <Fragment>
-            <Header/>
-
+            <Container fluid>
+                <h1 className={'text-center'}>Data Warehouse</h1>
+                <Row>
+                    <Col lg={6} className={'mt-2'}>
+                        <Card>
+                            <Card.Body>
+                                <BarChart/>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                    <Col lg={6} className={'mt-2'}>
+                        <Card>
+                            <Card.Body>
+                                <BarChart/>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                    <Col lg={6} className={'mt-2'}>
+                        <Card>
+                            <Card.Body>
+                                <BarChart/>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                </Row>
+            </Container>
         </Fragment>
     )
 }
