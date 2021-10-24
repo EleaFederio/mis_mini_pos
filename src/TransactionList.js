@@ -5,8 +5,8 @@ import axios from "axios";
 
 const TransactionList = () => {
 
-    // const url = 'http://127.0.0.1:8000';
-    const url = 'https://mis-pos.herokuapp.com';
+    const url = 'http://127.0.0.1:8000';
+    // const url = 'https://mis-pos.herokuapp.com';
     const [transactions, setTransactions] = useState([]);
 
     const getTransactions = () => {
@@ -26,7 +26,6 @@ const TransactionList = () => {
 
     return (
       <Fragment>
-          <Header/>
           <h1  className={'text-center mt-3'}>Transactions List</h1>
           <Container className={'mt-5'}>
               {
@@ -34,7 +33,7 @@ const TransactionList = () => {
                      <Accordion defaultActiveKey={0}>
                          <Accordion.Item eventKey={transaction.id}>
                              <Accordion.Header>
-                                 <b>Reference Number:</b>   {transaction.reference_number}
+                                 Reference Number:{'\u00A0\u00A0'}<b>{transaction.reference_number}</b>
                              </Accordion.Header>
                              <Accordion.Body>
                                  <Row>

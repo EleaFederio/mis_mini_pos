@@ -11,8 +11,8 @@ function Main() {
 
     const [products, setProducts] = useState([
     ]);
-    // const productUrl = 'http://127.0.0.1:8000/api/product';
-    const productUrl = 'https://mis-pos.herokuapp.com/api/product';
+    const productUrl = 'http://127.0.0.1:8000/api/product';
+    // const productUrl = 'https://mis-pos.herokuapp.com/api/product';
     const [cart, setCart] = useState([]);
     const [payment, setPayment] = useState('');
     const [summary, setSummary] = useState({
@@ -22,8 +22,8 @@ function Main() {
         'total' : 0.00
     });
     const [productEndPoint, setProductEndPoint] = useState(productUrl);
-    // const url = 'http://127.0.0.1:8000';
-    const url = 'https://mis-pos.herokuapp.com';
+    const url = 'http://127.0.0.1:8000';
+    // const url = 'https://mis-pos.herokuapp.com';
 
     const getProducts = () => {
         axios.get(productEndPoint)
@@ -81,8 +81,8 @@ function Main() {
             'totalPrice' : summary.subTotal,
             'products' : product_list
         }
-        // console.log('pay cash process');
-        // console.log(data);
+        console.log('pay cash process');
+        console.log(data);
         if(axios.post(url + '/api/transaction/add', data)){
             setCart([])
             setSummary({
@@ -138,7 +138,6 @@ function Main() {
 
     return (
         <div>
-            <Header/>
             <Container fluid className={'mt-4'}>
                 <Row>
                     <Col sm={7}>

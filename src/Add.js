@@ -5,8 +5,8 @@ import axios from "axios";
 
 const Add = () => {
 
-    // const url = 'http://127.0.0.1:8000';
-    const url = 'https://mis-pos.herokuapp.com';
+    const url = 'http://127.0.0.1:8000';
+    // const url = 'https://mis-pos.herokuapp.com';
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState(0.0);
@@ -18,9 +18,9 @@ const Add = () => {
         axios.get(url + '/api/categories')
             .then(res => {
                 setCategories(res.data);
-                console.log(categories);
+                // console.log(categories);
             }).catch(err => {
-            console.log(err)
+            // console.log(err)
         });
     }
 
@@ -33,23 +33,22 @@ const Add = () => {
         }
         axios.post(url + '/api/product/add', data)
             .then(res => {
-                console.log(res);
+                // console.log(res);
                 setName('');
                 setDescription('');
                 setPrice(0);
                 setCategory(0)
             }).catch(err => {
-            console.log(err)
+            // console.log(err)
         });
     }
 
 
     useEffect(() => {
         getCategories()
-    }, [categories])
+    }, [])
 
     return <Fragment>
-        <Header/>
         <Container className={'h-100'}>
             <Row className={'justify-content-center align-items-center'}>
                 <Col md={5}>
