@@ -13,7 +13,7 @@ const Report = () => {
 
     return (
         <Fragment>
-            <Container fluid>
+            <Container>
                 <h1 className={'text-center'}>Data Warehouse</h1>
                 <Row>
                     <Col lg={6} className={'mt-2'}>

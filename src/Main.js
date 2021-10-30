@@ -1,4 +1,3 @@
-import Header from "./components/header";
 import {Button, Col, Container, Pagination, Row, Spinner} from "react-bootstrap";
 import ItemAndPrice from "./components/itemAndPrice";
 import ProductSearch from "./components/productSearch";
@@ -7,7 +6,7 @@ import axios from "axios";
 import {useEffect, useState} from "react";
 import {decode} from 'html-entities';
 
-function Main() {
+function Main(props) {
 
     const [products, setProducts] = useState([
     ]);
@@ -73,9 +72,11 @@ function Main() {
             // console.log(cart_item)
             product_list.push({
                 "item" : cart_item.id,
-                "quantity" : cart_item.quantity
+                "quantity" : cart_item.quantity,
+                "branch_id" : props.branch
             })
         ));
+        console.log('XXXXXXXXXXXXX' + product_list)
         const data = {
             'payment' : payment,
             'totalPrice' : summary.subTotal,
