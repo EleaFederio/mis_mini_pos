@@ -4,21 +4,20 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 
 function Header(props){
-    const [category, setCategory] =useState(1);
-    const [categories, setCategories] = useState([]);
 
-    const getCategories = () => {
+
+    const getBranches = () => {
         axios.get(props.url + '/api/branches')
             .then(res => {
-                setCategories(res.data);
-                // console.log(categories);
+                props.setBranches(res.data);
+                console.log(props.branches);
             }).catch(err => {
             // console.log(err)
         });
     }
 
     useEffect(() => {
-        getCategories()
+        getBranches()
     }, [])
 
     return (
@@ -39,10 +38,10 @@ function Header(props){
                             <Form.Select
                                 // name={'category'}
                                 // defaultValue={category}
-                                onChange={(e) => setCategory(e.target.value)}
+                                onChange={(e) => props.setBranch(e.target.value)}
                             >
                                 {
-                                    categories.map((categorie) => (
+                                    props.branches.map((categorie) => (
                                         <option
                                             key={categorie.id}
                                             value={categorie.id}

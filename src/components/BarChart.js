@@ -1,6 +1,6 @@
 import {Bar} from "react-chartjs-2";
 
-const BarChart = () => {
+const BarChart = (props) => {
     return(
         <div>
             <Bar
@@ -9,7 +9,7 @@ const BarChart = () => {
                     datasets: [
                         {
                             label: 'Post System Sales in 1 Year',
-                            data: [12, 19, 3, 5, 2, 3, 5, 3, 6, 2, 9, 8],
+                            data: props.data,
                             backgroundColor: 'rgba(54, 162, 235, 0.7)'
                         }
                     ]
@@ -20,6 +20,9 @@ const BarChart = () => {
                     maintainAspectRatio: false
                 }}
             />
+            {
+                console.log(props.data)
+            }
         </div>
     )
 }
