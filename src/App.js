@@ -20,13 +20,13 @@ function App() {
        <Route path={'/transactions'} component={TransactionList}></Route>
        <Route
            path={'/reports'}
-           component={Report}
-           // render={() => (
-           //     <Report
-           //         url={url}
-           //     />
-           // )}
-           // exact
+           // component={Report}
+           render={() => (
+               <Report
+                   url={url}
+               />
+           )}
+           exact
        />
    </BrowserRouter>
   );
