@@ -2,10 +2,8 @@ import {Fragment, useEffect, useState} from "react";
 import {Button, Card, Col, Container, Form, Row} from "react-bootstrap";
 import axios from "axios";
 
-const Add = () => {
+const Add = (props) => {
 
-    const url = 'http://127.0.0.1:8000';
-    // const url = 'https://mis-pos.herokuapp.com';
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState(0.0);
@@ -14,7 +12,7 @@ const Add = () => {
     const [categories, setCategories] = useState([]);
 
     const getCategories = () => {
-        axios.get(url + '/api/categories')
+        axios.get(props.url + '/api/categories')
             .then(res => {
                 setCategories(res.data);
                 // console.log(categories);
@@ -30,7 +28,7 @@ const Add = () => {
             'price' : price,
             'category_id' : category
         }
-        axios.post(url + '/api/product/add', data)
+        axios.post(props.url + '/api/product/add', data)
             .then(res => {
                 // console.log(res);
                 setName('');

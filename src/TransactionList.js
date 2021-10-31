@@ -3,14 +3,12 @@ import Header from "./components/header";
 import {Accordion, Card, Col, Container, Row} from "react-bootstrap";
 import axios from "axios";
 
-const TransactionList = () => {
+const TransactionList = (props) => {
 
-    const url = 'http://127.0.0.1:8000';
-    // const url = 'https://mis-pos.herokuapp.com';
     const [transactions, setTransactions] = useState([]);
 
     const getTransactions = () => {
-        axios.get(url + '/api/transactions')
+        axios.get(props.url + '/api/transactions')
             .then(res => {
                 setTransactions(res.data)
                 console.log(transactions)
