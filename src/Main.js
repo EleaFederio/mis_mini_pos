@@ -72,7 +72,7 @@ function Main(props) {
             product_list.push({
                 "item" : cart_item.id,
                 "quantity" : cart_item.quantity,
-                "branch_id" : props.branch
+                "branch_id" : parseInt(props.branch)
             })
         ));
         console.log('XXXXXXXXXXXXX' + product_list)
