@@ -10,8 +10,7 @@ function Main(props) {
 
     const [products, setProducts] = useState([
     ]);
-    const productUrl = 'http://127.0.0.1:8000/api/product';
-    // const productUrl = 'https://mis-pos.herokuapp.com/api/product';
+    const productUrl = props.url + '/api/product';
     const [cart, setCart] = useState([]);
     const [payment, setPayment] = useState('');
     const [summary, setSummary] = useState({
@@ -21,7 +20,7 @@ function Main(props) {
         'total' : 0.00
     });
     const [productEndPoint, setProductEndPoint] = useState(productUrl);
-    const url = 'http://127.0.0.1:8000';
+    // const url = 'http://127.0.0.1:8000';
     // const url = 'https://mis-pos.herokuapp.com';
 
     const getProducts = () => {
@@ -84,7 +83,7 @@ function Main(props) {
         }
         console.log('pay cash process');
         console.log(data);
-        if(axios.post(url + '/api/transaction/add', data)){
+        if(axios.post(props.url + '/api/transaction/add', data)){
             setCart([])
             setSummary({
                 'tax'  : 0.00,
@@ -142,7 +141,7 @@ function Main(props) {
             <Container fluid className={'mt-4'}>
                 <Row>
                     <Col sm={7}>
-                        <ProductSearch searchProduct={searchProduct} getProducts={getProducts} url={url} />
+                        <ProductSearch searchProduct={searchProduct} getProducts={getProducts} url={props.url} />
                         <Container>
                             <Row className={'mt-5'}>
                                 {
