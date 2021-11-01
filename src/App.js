@@ -8,8 +8,8 @@ import {useState} from "react";
 
 function App() {
 
-    // const url = 'http://127.0.0.1:8000';
-    const url = 'https://mis-pos.herokuapp.com';
+    const url = 'http://127.0.0.1:8000';
+    // const url = 'https://mis-pos.herokuapp.com';
     const [branches, setBranches] = useState([]);
     const [branch, setBranch] =useState(1);
 

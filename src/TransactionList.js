@@ -34,7 +34,6 @@ const TransactionList = (props) => {
                                  Reference Number:{'\u00A0\u00A0'}<b>{transaction.reference_number}</b>
                              </Accordion.Header>
                              <Accordion.Body>
-                                 <p className={'text-end'}>Branch: </p>
                                  <Row>
                                      <Col>
                                          <p style={{marginBottom: 0}}><b>Tax: </b>₱{transaction.tax}</p>

@@ -1,122 +1,45 @@
 import {Fragment, useEffect, useState} from "react";
-import {Button, Card, Col, Container, Form, Row} from "react-bootstrap";
+import {Button, Card, Col, Container, Form, Modal, Row, Tab, Tabs} from "react-bootstrap";
 import axios from "axios";
+import AddProductModal from "./components/AddProductModal";
 
 const Add = (props) => {
 
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
-    const [price, setPrice] = useState(0.0);
-    const [category, setCategory] =useState(1);
 
-    const [categories, setCategories] = useState([]);
-
-    const getCategories = () => {
-        axios.get(props.url + '/api/categories')
-            .then(res => {
-                setCategories(res.data);
-                // console.log(categories);
-            }).catch(err => {
-            // console.log(err)
-        });
-    }
-
-    const addproduct = () => {
-        let data = {
-            'name' : name,
-            'description' : description,
-            'price' : price,
-            'category_id' : category
-        }
-        axios.post(props.url + '/api/product/add', data)
-            .then(res => {
-                // console.log(res);
-                setName('');
-                setDescription('');
-                setPrice(0);
-                setCategory(0)
-            }).catch(err => {
-            // console.log(err)
-        });
-    }
+    //***** Tab Switching Variable *****//
+    const [tabKey, setTabKey] = useState('products');
 
 
-    useEffect(() => {
-        getCategories()
-    }, [])
+
 
     return <Fragment>
-        <Container className={'h-100'}>
-            <Row className={'justify-content-center align-items-center'}>
-                <Col md={5}>
-                    <Card style={{marginTop: '8vh'}}>
-                        <p
-                            className={'text-center mb-0'}
-                            style={{marginTop: '2vh'}}
-                        >
-                            <b>Add New Product</b>
-                        </p>
+        <Container >
+            <h1  className={'text-center mt-3'}>Dashboard</h1>
+            {/***** Switchable tab between Products and Discount *****/}
+            <Tabs
+                activeKey={tabKey}
+                onSelect={(k) => setTabKey(k)}
+                className={'mt-3'}
+                style={{
+                    backgroundColor: '#ddd',
+                    color: 'white'
+                }}
+            >
+                <Tab eventKey={'products'} title={'Products'}>
+                    <Card>
                         <Card.Body>
-                            <Form>
-                                <Form.Group>
-                                    <Form.Label>Product Name</Form.Label>
-                                    <Form.Control
-                                        type={'text'}
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                        placeholder={'Enter Product Name...'}
-                                    />
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Label>Description</Form.Label>
-                                    <Form.Control
-                                        type={'text'}
-                                        value={description}
-                                        onChange={(e) => setDescription(e.target.value)}
-                                        placeholder={'Enter Description...'}
-                                    />
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Label>Price</Form.Label>
-                                    <Form.Control
-                                        type={'text'}
-                                        value={price}
-                                        onChange={(e) => setPrice(e.target.value)}
-                                        placeholder={'Enter Price...'}
-                                    />
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Label>Category</Form.Label>
-                                    <Form.Select
-                                        name={'category'}
-                                        defaultValue={category}
-                                        onChange={(e) => setCategory(e.target.value)}
-                                    >
-                                        {
-                                            categories.map((categorie) => (
-                                                <option
-                                                    key={categorie.id}
-                                                    value={categorie.id}
-                                                >
-                                                    {categorie.category_name}
-                                                </option>
-                                            ))
-                                        }
-                                    </Form.Select>
-                                </Form.Group>
-                                <div className="d-grid gap-2">
-                                    <Button
-                                        className={'btn-block mt-5'}
-                                        onClick={addproduct}
-                                    >
-                                        <b>Add</b>
-                                    </Button>
-                                </div>
-                            </Form>
+                            <AddProductModal url={props.url}/>
                         </Card.Body>
                     </Card>
-                </Col>
-            </Row>
+                </Tab>
+                <Tab eventKey={'discount'} title={'Discount'}>
+                    <Card>
+                        <Card.Body>
+                            <h1>Discount</h1>
+                        </Card.Body>
+                    </Card>
+                </Tab>
+            </Tabs>
         </Container>
     </Fragment>
 }
