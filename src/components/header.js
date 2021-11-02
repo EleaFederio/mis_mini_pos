@@ -32,7 +32,7 @@ function Header(props){
                         <Nav.Link as={Link} to={'/reports'}>Data Warehouse</Nav.Link>
                     </Nav>
                     <Nav>
-                        <Nav.Link >Select Branch</Nav.Link>
+                        <Nav.Link active >Select Branch</Nav.Link>
                         <Form.Group className="justify-content-end">
                             {/*<Form.Label>Category</Form.Label>*/}
                             <Form.Select

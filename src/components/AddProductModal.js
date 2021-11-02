@@ -2,6 +2,7 @@ import {Button, Col, Container, Form, Modal, Row} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import ProductTable from "./product_components/ProductTable";
+import {BsFillBagPlusFill} from "react-icons/all";
 
 const AddProductModal = (props) => {
 
@@ -10,10 +11,41 @@ const AddProductModal = (props) => {
     const [price, setPrice] = useState(0.0);
     const [category, setCategory] =useState(1);
 
-    //***** Modal Controls *****//
+    //***** Add Product Modal Controls *****//
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    //***** Add Product Modal Controls *****//
+    const [productModal, setProductModal] = useState(false);
+    const productModalClose = () => setProductModal(false);
+    const productModalShow = () => setProductModal(true);
+
+    //***** Product Data & State *****//
+    const [products, setProducts] = useState([]);
+    const productUrl = props.url + '/api/products';
+    const [productEndPoint, setProductEndPoint] = useState(productUrl);
+
+    const getProducts = () => {
+        axios.get(productEndPoint)
+            .then(res => {
+                setProducts(res.data);
+                // console.log('++++++++++++++++++++++++++')
+                // console.log(products)
+            }).catch(err => {
+            // console.log(err)
+        });
+    }
+
+    const showURL = (url) => {
+        console.log(productUrl + url)
+        setProductEndPoint(productUrl + url);
+        while(!productEndPoint){
+
+        }
+        getProducts()
+        // console.log(productEndPoint);
+    }
 
     const getCategories = () => {
         axios.get(props.url + '/api/categories')
@@ -41,7 +73,8 @@ const AddProductModal = (props) => {
                 setDescription('');
                 setPrice(0);
                 setCategory(0)
-                handleClose()
+                handleClose();
+                getProducts();
             }).catch(err => {
             // console.log(err)
         });
@@ -50,14 +83,19 @@ const AddProductModal = (props) => {
 
 
     useEffect(() => {
-        getCategories()
+        getCategories();
+        getProducts();
     }, [])
 
     return (
         <Container className={'mt-3'}>
-            <Button variant={"primary"} size={'sm'} onClick={handleShow}>Add Product</Button>
+            <Button variant={"primary"} onClick={handleShow}><BsFillBagPlusFill/> Add Product</Button>
 
-            <ProductTable url={props.url} />
+            <ProductTable
+                products={products}
+                showUrl={showURL}
+                productModalShow={productModalShow}
+            />
 
             {/* Add Product MOdal */}
             <Row className={'justify-content-center align-items-center'}>
@@ -123,6 +161,29 @@ const AddProductModal = (props) => {
                         <Modal.Footer>
                             <Button variant={"secondary"} onClick={handleClose}>Cancel</Button>
                             <Button variant={"primary"} onClick={addproduct}>Submit</Button>
+                        </Modal.Footer>
+                    </Modal>
+                </Col>
+            </Row>
+
+            <Row className={'justify-content-center align-items-center'}>
+                <Col md={5}>
+                    <Modal show={productModal} >
+                        <Modal.Header style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}>
+                            <h5 className={'text-center'}>Add New Product</h5>
+                        </Modal.Header>
+                        <Modal.Body>
+
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button
+                                variant={'secondary'}
+                                onClick={productModalClose}
+                            >Close</Button>
                         </Modal.Footer>
                     </Modal>
                 </Col>
