@@ -13,6 +13,7 @@ const ProductTable = (props) => {
                 <thead>
                     <tr>
                         <th className={'text-center'}>Name</th>
+                        <th className={'text-center'}>Description</th>
                         <th className={'text-center'}>Category</th>
                         <th className={'text-center'}>Price</th>
                         <th className={'text-center'}>Actions</th>
@@ -35,15 +36,19 @@ const ProductTable = (props) => {
                         props.products.data.map((product) => (
                             <tr key={product.id}>
                                 <td className={'text-center'}>{product.name}</td>
+                                <td className={'text-center'}>{product.description}</td>
                                 <td className={'text-center'}>{product.category}</td>
                                 <td className={'text-center'}>₱{product.price}</td>
                                 <td className={'text-center'} width={180}>
                                     <Row>
                                         <Col>
-                                            <Button variant={'primary'} size={'sm'}  onClick={props.productModalShow}><AiFillEye/></Button>
-                                        </Col>
-                                        <Col>
-                                            <Button variant={'secondary'} size={'sm'}><AiFillEdit/></Button>
+                                            <Button
+                                                variant={'secondary'}
+                                                size={'sm'}
+                                                onClick={() => props.showModalUpdateDetails(product.id)}
+                                            >
+                                                <AiFillEdit/>
+                                            </Button>
                                         </Col>
                                         <Col>
                                             <Button variant={'danger'} size={'sm'}><BsFillTrashFill/></Button>
@@ -59,7 +64,7 @@ const ProductTable = (props) => {
                 {
                     !props.products.links ? '' :
                         props.products.links.map((link) => (
-                            console.log(link.url),
+                            // console.log(link.url),
                             <Pagination.Item
                                 disabled={link.url === null}
                                 // onClick={props.showUrl(link.ur)}

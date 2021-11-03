@@ -6,10 +6,12 @@ import {BsFillBagPlusFill} from "react-icons/all";
 
 const AddProductModal = (props) => {
 
+    const [productId, setProductId] = useState(0);
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState(0.0);
     const [category, setCategory] =useState(1);
+    const [cardTitle, setCardTitle] = useState('');
 
     //***** Add Product Modal Controls *****//
     const [show, setShow] = useState(false);
@@ -37,8 +39,62 @@ const AddProductModal = (props) => {
         });
     }
 
+    const showModalAddProduct = () => {
+        handleShow();
+        setCardTitle('Add New Product');
+    }
+
+    const showModalUpdateDetails = (id) => {
+        setCardTitle('Update this Product');
+        axios.get(props.url + '/api/product/' + id)
+            .then(res => {
+                setProductId(res.data.product.id);
+                setName(res.data.product.name);
+                setDescription(res.data.product.description)
+                setPrice(res.data.product.price);
+                setCategory(res.data.product.category_id);
+            }).catch(err => {
+            console.log(err)
+        });
+        // console.log({
+        //     name : name,
+        //     description : description,
+        //     price : price,
+        //     category : category
+        // })
+        handleShow();
+    }
+
+    const closeModalUpdateProduct = () => {
+        setName('');
+        setDescription('');
+        setPrice(0);
+        setCategory(0)
+        handleClose();
+    }
+
+    const updateProduct = () => {
+        let data = {
+            'name' : name,
+            'description' : description,
+            'price' : price,
+            'category_id' : category
+        }
+        console.log(data);
+        axios.put(props.url + '/api/product/update/' + productId, data)
+            .then(res => {
+                setProducts(res.data.product);
+                setName('');
+                setDescription('');
+                setPrice(0);
+                setCategory(0)
+                handleClose()
+            }).catch(err => {
+                console.log(err)
+        })
+    }
+
     const showURL = (url) => {
-        console.log(productUrl + url)
         setProductEndPoint(productUrl + url);
         while(!productEndPoint){
 
@@ -59,7 +115,7 @@ const AddProductModal = (props) => {
 
     const [categories, setCategories] = useState([]);
 
-    const addproduct = () => {
+    const addProduct = () => {
         let data = {
             'name' : name,
             'description' : description,
@@ -80,8 +136,6 @@ const AddProductModal = (props) => {
         });
     }
 
-
-
     useEffect(() => {
         getCategories();
         getProducts();
@@ -89,12 +143,13 @@ const AddProductModal = (props) => {
 
     return (
         <Container className={'mt-3'}>
-            <Button variant={"primary"} onClick={handleShow}><BsFillBagPlusFill/> Add Product</Button>
+            <Button variant={"primary"} onClick={showModalAddProduct}><BsFillBagPlusFill/> Add Product</Button>
 
             <ProductTable
                 products={products}
                 showUrl={showURL}
                 productModalShow={productModalShow}
+                showModalUpdateDetails={showModalUpdateDetails}
             />
 
             {/* Add Product MOdal */}
@@ -106,7 +161,7 @@ const AddProductModal = (props) => {
                             justifyContent: "center",
                             alignItems: "center",
                         }}>
-                            <h5 className={'text-center'}>Add New Product</h5>
+                            <h5 className={'text-center'}>{cardTitle}</h5>
                         </Modal.Header>
                         <Modal.Body>
                             <Form>
@@ -141,7 +196,7 @@ const AddProductModal = (props) => {
                                     <Form.Label>Category</Form.Label>
                                     <Form.Select
                                         name={'category'}
-                                        defaultValue={category}
+                                        value={category}
                                         onChange={(e) => setCategory(e.target.value)}
                                     >
                                         {
@@ -159,31 +214,14 @@ const AddProductModal = (props) => {
                             </Form>
                         </Modal.Body>
                         <Modal.Footer>
-                            <Button variant={"secondary"} onClick={handleClose}>Cancel</Button>
-                            <Button variant={"primary"} onClick={addproduct}>Submit</Button>
-                        </Modal.Footer>
-                    </Modal>
-                </Col>
-            </Row>
-
-            <Row className={'justify-content-center align-items-center'}>
-                <Col md={5}>
-                    <Modal show={productModal} >
-                        <Modal.Header style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                        }}>
-                            <h5 className={'text-center'}>Add New Product</h5>
-                        </Modal.Header>
-                        <Modal.Body>
-
-                        </Modal.Body>
-                        <Modal.Footer>
                             <Button
-                                variant={'secondary'}
-                                onClick={productModalClose}
-                            >Close</Button>
+                                variant={"secondary"}
+                                onClick={cardTitle === 'Update this Product' ? closeModalUpdateProduct : handleClose}
+                            >Cancel</Button>
+                            <Button
+                                variant={"primary"}
+                                onClick={cardTitle === 'Update this Product' ? updateProduct : addProduct}
+                            >Submit</Button>
                         </Modal.Footer>
                     </Modal>
                 </Col>
