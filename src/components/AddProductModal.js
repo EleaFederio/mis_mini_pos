@@ -83,12 +83,21 @@ const AddProductModal = (props) => {
         console.log(data);
         axios.put(props.url + '/api/product/update/' + productId, data)
             .then(res => {
-                setProducts(res.data.product);
+                setProducts(res.data);
                 setName('');
                 setDescription('');
                 setPrice(0);
                 setCategory(0)
                 handleClose()
+            }).catch(err => {
+                console.log(err)
+        })
+    }
+
+    const deleteProduct = (id) => {
+        axios.delete(props.url + '/api/product/' + id)
+            .then(res =>  {
+                setProducts(res.data);
             }).catch(err => {
                 console.log(err)
         })
@@ -150,6 +159,7 @@ const AddProductModal = (props) => {
                 showUrl={showURL}
                 productModalShow={productModalShow}
                 showModalUpdateDetails={showModalUpdateDetails}
+                deleteProduct={deleteProduct}
             />
 
             {/* Add Product MOdal */}

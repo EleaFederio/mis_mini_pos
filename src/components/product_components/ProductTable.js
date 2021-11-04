@@ -51,7 +51,13 @@ const ProductTable = (props) => {
                                             </Button>
                                         </Col>
                                         <Col>
-                                            <Button variant={'danger'} size={'sm'}><BsFillTrashFill/></Button>
+                                            <Button
+                                                variant={'danger'}
+                                                size={'sm'}
+                                                onClick={() => props.deleteProduct(product.id)}
+                                            >
+                                                <BsFillTrashFill/>
+                                            </Button>
                                         </Col>
                                     </Row>
                                 </td>
