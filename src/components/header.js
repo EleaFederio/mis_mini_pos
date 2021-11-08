@@ -21,13 +21,19 @@ function Header(props){
     }, [])
 
     return (
-        <Navbar collapseOnSelect bg={'primary'} expand={'lg'} variant={'dark'}>
+        <Navbar
+            collapseOnSelect
+            bg={'primary'}
+            expand={'lg'}
+            variant={'dark'}
+            // fixed={'top'}
+        >
             <Container fluid>
                 <Navbar.Brand as={Link} to={'/'}>MIS POS v.1</Navbar.Brand>
                 <Navbar.Toggle aria-controls={'responsive-navbar-nav'}/>
                 <Navbar.Collapse id={'responsive-navbar-nav'}>
                     <Nav className={'me-auto'}>
-                        <Nav.Link as={Link} to={'/add'}>Add</Nav.Link>
+                        <Nav.Link as={Link} to={'/add'}>Dashboard</Nav.Link>
                         <Nav.Link as={Link} to={'/transactions'}>Transactions</Nav.Link>
                         <Nav.Link as={Link} to={'/reports'}>Data Warehouse</Nav.Link>
                     </Nav>
