@@ -10,13 +10,34 @@ const DiscountComponent = (props) => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const [title,  setTile] = useState();
+
 
     const [discountData, setDiscountData] = useState({
         name : '',
-        percent : 10
+        percent : 0
     });
 
     const [discounts, setDiscounts] = useState();
+
+
+    const [pointer, setPointer] = useState();
+
+    const showCreateModal = () => {
+        setDiscountData({
+            ...discountData,
+            name : '',
+            percent : 0
+        });
+        setTile('Create Discount')
+        handleShow()
+    }
+
+    const showUpdateModal = (id) => {
+        setTile('Update Discount')
+        selectDiscount(id)
+        handleShow()
+    }
 
     const getDiscount = () => {
         axios.get(props.url + '/api/discount')
@@ -27,14 +48,28 @@ const DiscountComponent = (props) => {
         })
     }
 
-    const addDiscount = (data) => {
-        console.log(data);
-        // axios.post(props.url + '/api/discount' + data)
-        //     .then((result) => {
-        //         setDiscounts(result.data)
-        //     }).catch((error) => {
-        //     console.log(error)
-        // })
+    const selectDiscount = (id) => {
+        axios.get(props.url + '/api/discount/' + id)
+            .then((res) => {
+                setPointer(id);
+                setDiscountData({
+                   ...discountData,
+                    name : res.data.discount.name,
+                    percent : res.data.discount.percent
+                });
+            })
+    }
+
+    const updateDiscount = () => {
+        axios.put(props.url + '/api/discount/' + pointer,  discountData)
+            .then((res) => {
+                console.log(props.url + '/api/discount/' + pointer)
+                setDiscounts(res.data.discount)
+                handleClose()
+            })
+            .catch((error) => {
+                console.log(error)
+            })
     }
 
     const deleteDiscount = (id) => {
@@ -52,18 +87,26 @@ const DiscountComponent = (props) => {
 
     return(
         <Fragment>
-            <DiscountHeader handleShow={handleShow} />
+
+            <DiscountHeader
+                showCreateModal={showCreateModal}
+            />
+
             <DiscountTable
                 discounts={discounts}
                 deleteDiscount={deleteDiscount}
+                showUpdateModal={showUpdateModal}
             />
 
             <DiscountModal
                 show={show}
+                title={title}
                 handleClose={handleClose}
                 discountData={discountData}
                 setDiscountData={setDiscountData}
-                addDiscount={addDiscount}
+                getDiscount={getDiscount}
+                url={props.url}
+                updateDiscount={updateDiscount}
             />
 
         </Fragment>

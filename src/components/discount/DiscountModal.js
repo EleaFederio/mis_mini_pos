@@ -1,7 +1,8 @@
 import {Button, Form, FormControl, Modal} from "react-bootstrap";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import discountValidation from "./discountValidation";
 import data from "bootstrap/js/src/dom/data";
+import {axios} from "../../lib/axios";
 
 const DiscountModal = (props) => {
 
@@ -14,23 +15,39 @@ const DiscountModal = (props) => {
         })
     }
 
+    function isEmpty(obj) {
+        return Object.keys(obj).length === 0;
+    }
+
     const handleSubmit = (event) => {
         event.preventDefault();
+        // console.log(props.discountData);
+
         setErrors(discountValidation(props.discountData))
-        if(errors === {}){
-            data = {
-                name : props.discountData.name,
-                percent : props.discountData.percent
-            }
-            props.addDiscount(data)
-        }
+
     }
+
+    useEffect(() => {
+        // ***** Continuation of handleSubmit() *****  //
+        if(props.title === 'Create Discount'){
+            if(isEmpty(errors)){
+                axios.post(props.url + '/api/discount', props.discountData)
+                    .then((res) => {
+                        props.setDiscountData(res.data.discount)
+                        props.handleClose()
+                        props.getDiscount()
+                    }).catch((error) => {
+                    console.log(error)
+                })
+            }
+        }
+    }, [errors,])
 
     return (
         <Modal show={props.show} onHide={props.handleClose}>
             <Modal.Header>
                 <div>
-                    <h5 className={'text-center'}>Create Discount</h5>
+                    <h5 className={'text-center'}>{props.title}</h5>
                 </div>
             </Modal.Header>
             <Modal.Body>
@@ -69,8 +86,8 @@ const DiscountModal = (props) => {
                 <Button variant="secondary" onClick={props.handleClose}>
                     Close
                 </Button>
-                <Button variant="primary"  onClick={handleSubmit} >
-                    Save Changes
+                <Button variant="primary"  onClick={props.title === 'Create Discount' ? handleSubmit : props.updateDiscount} >
+                    {props.title === 'Create Discount' ? 'Submit' : 'Save Changes'}
                 </Button>
             </Modal.Footer>
         </Modal>

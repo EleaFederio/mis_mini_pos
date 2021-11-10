@@ -24,7 +24,13 @@ const DiscountTable = (props) => {
                             <td className={'text-center'}>{ discount.percent }%</td>
                             <td className={'text-center'}>
                                 <Row>
-                                    <Col><Button size={'sm'} variant={'secondary'}><FaPen/></Button></Col>
+                                    <Col>
+                                        <Button
+                                            size={'sm'}
+                                            variant={'secondary'}
+                                            onClick={() => props.showUpdateModal(discount.id)}
+                                        ><FaPen/></Button>
+                                    </Col>
                                     <Col>
                                         <Button
                                             size={'sm'}

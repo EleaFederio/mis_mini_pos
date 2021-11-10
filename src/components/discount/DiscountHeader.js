@@ -5,17 +5,24 @@ const DiscountHeader  = (props) => {
     return (
         <Row>
             <Col>
+
                 <Button
                     className={'mb-3 me-3'}
                     size={'sm'}
                     variant={'primary'}
-                    onClick={props.handleShow}
-                ><FaPlus/>New Discount</Button>
+                    onClick={props.showCreateModal}
+                >
+                    <FaPlus/>New Discount
+                </Button>
+
                 <Button
                     className={'mb-3'}
                     size={'sm'}
                     variant={'success'}
-                ><FaFileImport/> CSV Import</Button>
+                >
+                    <FaFileImport/> CSV Import
+                </Button>
+
             </Col>
             <Col>
                 <div className={'text-end'}>
