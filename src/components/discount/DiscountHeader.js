@@ -19,6 +19,7 @@ const DiscountHeader  = (props) => {
                     className={'mb-3'}
                     size={'sm'}
                     variant={'success'}
+                    onClick={() => props.setShowCSVModal(true)}
                 >
                     <FaFileImport/> CSV Import
                 </Button>

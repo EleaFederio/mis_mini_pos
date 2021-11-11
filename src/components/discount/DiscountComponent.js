@@ -3,6 +3,8 @@ import axios from "axios";
 import DiscountTable from "./DiscountTable";
 import DiscountHeader from "./DiscountHeader";
 import DiscountModal from "./DiscountModal";
+import {Button, Form, Modal} from "react-bootstrap";
+import * as XLSX from 'xlsx';
 
 const DiscountComponent = (props) => {
 
@@ -11,6 +13,10 @@ const DiscountComponent = (props) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const [title,  setTile] = useState();
+
+    // ***** This Controls the CSV Reader Modal ***** //
+    const [showCSVModal, setShowCSVModal] = useState(false);
+    const [csvData, setCsvData] = useState({});
 
 
     const [discountData, setDiscountData] = useState({
@@ -81,6 +87,31 @@ const DiscountComponent = (props) => {
         })
     }
 
+    const readSpreadSheet = (file) => {
+        const promise = new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsArrayBuffer(file);
+
+            fileReader.onload = (e) => {
+                const bufferArray = e.target.result;
+                const wb = XLSX.read(bufferArray, { type: "buffer" });
+                const wsname = wb.SheetNames[0];
+                const ws = wb.Sheets[wsname];
+                const data = XLSX.utils.sheet_to_json(ws);
+                resolve(data);
+            };
+
+            fileReader.onerror = (error) => {
+                reject(error);
+            };
+        });
+
+        promise.then((data) => {
+            setCsvData(data)
+            console.log(data)
+        });
+    }
+
     useEffect(() => {
         getDiscount();
     }, [])
@@ -90,6 +121,7 @@ const DiscountComponent = (props) => {
 
             <DiscountHeader
                 showCreateModal={showCreateModal}
+                setShowCSVModal={setShowCSVModal}
             />
 
             <DiscountTable
@@ -108,6 +140,37 @@ const DiscountComponent = (props) => {
                 url={props.url}
                 updateDiscount={updateDiscount}
             />
+
+            <Modal show={showCSVModal} onHide={() => setShowCSVModal(false)}>
+                <Modal.Header>
+                    <Modal.Title>Upload Discount List</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+
+                    {/*  Form for CSV File  */}
+                    <Form.Group>
+                        <Form.Label>CSV File</Form.Label>
+                        <Form.Control
+                            type={'file'}
+                            onChange={(event) => {
+                                const file = event.target.files[0];
+                                readSpreadSheet(file)
+                            }}
+                        />
+                    </Form.Group>
+
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button
+                        variant={'secondary'}
+                        onClick={() => setShowCSVModal(false)}
+                    >Close</Button>
+                    <Button
+                        variant={'primary'}
+
+                    >Upload</Button>
+                </Modal.Footer>
+            </Modal>
 
         </Fragment>
     )

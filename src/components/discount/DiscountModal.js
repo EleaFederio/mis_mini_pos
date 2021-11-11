@@ -1,7 +1,6 @@
 import {Button, Form, FormControl, Modal} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import discountValidation from "./discountValidation";
-import data from "bootstrap/js/src/dom/data";
 import {axios} from "../../lib/axios";
 
 const DiscountModal = (props) => {
