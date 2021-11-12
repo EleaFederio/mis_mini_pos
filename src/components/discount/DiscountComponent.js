@@ -3,7 +3,7 @@ import axios from "axios";
 import DiscountTable from "./DiscountTable";
 import DiscountHeader from "./DiscountHeader";
 import DiscountModal from "./DiscountModal";
-import {Button, Form, Modal} from "react-bootstrap";
+import {Alert, Button, Form, Modal} from "react-bootstrap";
 import * as XLSX from 'xlsx';
 
 const DiscountComponent = (props) => {
@@ -17,6 +17,7 @@ const DiscountComponent = (props) => {
     // ***** This Controls the CSV Reader Modal ***** //
     const [showCSVModal, setShowCSVModal] = useState(false);
     const [csvData, setCsvData] = useState({});
+    const [csvUploadError, setCsvUploadError] = useState('');
 
 
     const [discountData, setDiscountData] = useState({
@@ -112,6 +113,22 @@ const DiscountComponent = (props) => {
         });
     }
 
+    const uploadCsvData = () => {
+        axios.post(props.url + '/api/discount/upload', csvData)
+            .then((res) => {
+                console.log(res.data);
+                setShowCSVModal(false)
+                getDiscount()
+            }).catch((error) => {
+                console.log('Hahaha')
+        })
+    }
+
+    const showCSVModalComponent = () => {
+        setCsvUploadError('');
+        setShowCSVModal(true);
+    }
+
     useEffect(() => {
         getDiscount();
     }, [])
@@ -148,6 +165,7 @@ const DiscountComponent = (props) => {
                 <Modal.Body>
 
                     {/*  Form for CSV File  */}
+                    <Alert variant={'warning'}>{csvUploadError}</Alert>
                     <Form.Group>
                         <Form.Label>CSV File</Form.Label>
                         <Form.Control
@@ -163,11 +181,11 @@ const DiscountComponent = (props) => {
                 <Modal.Footer>
                     <Button
                         variant={'secondary'}
-                        onClick={() => setShowCSVModal(false)}
+                        onClick={showCSVModalComponent}
                     >Close</Button>
                     <Button
                         variant={'primary'}
-
+                        onClick={uploadCsvData}
                     >Upload</Button>
                 </Modal.Footer>
             </Modal>
