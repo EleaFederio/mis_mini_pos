@@ -26,7 +26,8 @@ const DiscountComponent = (props) => {
     });
 
     const [discounts, setDiscounts] = useState();
-
+    const [discountError, setDiscountError] = useState();
+    const [uploadButton,  setuUloadButton] = useState(true);
 
     const [pointer, setPointer] = useState();
 
@@ -107,13 +108,16 @@ const DiscountComponent = (props) => {
             };
         });
 
-        promise.then((data) => {
-            setCsvData(data)
-            console.log(data)
+        promise.then((datas) => {
+            datas.map((data) => {
+               setDiscountError(!data.hasOwnProperty('name'))
+            });
+            setCsvData(datas);
         });
     }
 
     const uploadCsvData = () => {
+        console.log(csvData);
         axios.post(props.url + '/api/discount/upload', csvData)
             .then((res) => {
                 console.log(res.data);
@@ -124,6 +128,12 @@ const DiscountComponent = (props) => {
         })
     }
 
+    const openDiscountModal = () => {
+        setShowCSVModal(true);
+        setDiscountError(false)
+        setuUloadButton(true)
+    }
+
     const showCSVModalComponent = () => {
         setCsvUploadError('');
         setShowCSVModal(true);
@@ -131,14 +141,20 @@ const DiscountComponent = (props) => {
 
     useEffect(() => {
         getDiscount();
-    }, [])
+        if(discountError  === false){
+            setuUloadButton(false)
+        }else {
+            setuUloadButton(true)
+        }
+
+    }, [uploadButton, discountError])
 
     return(
         <Fragment>
 
             <DiscountHeader
                 showCreateModal={showCreateModal}
-                setShowCSVModal={setShowCSVModal}
+                openDiscountModal={openDiscountModal}
             />
 
             <DiscountTable
@@ -165,7 +181,7 @@ const DiscountComponent = (props) => {
                 <Modal.Body>
 
                     {/*  Form for CSV File  */}
-                    <Alert variant={'warning'}>{csvUploadError}</Alert>
+                    <Alert show={discountError} variant={'warning'}>Invalid Format</Alert>
                     <Form.Group>
                         <Form.Label>CSV File</Form.Label>
                         <Form.Control
@@ -181,9 +197,10 @@ const DiscountComponent = (props) => {
                 <Modal.Footer>
                     <Button
                         variant={'secondary'}
-                        onClick={showCSVModalComponent}
+                        onClick={() => setShowCSVModal(false)}
                     >Close</Button>
                     <Button
+                        disabled={uploadButton}
                         variant={'primary'}
                         onClick={uploadCsvData}
                     >Upload</Button>

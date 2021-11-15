@@ -1,7 +1,7 @@
 import {Fragment} from "react";
 import {Button, Col, Pagination, Row, Spinner, Table} from "react-bootstrap";
 import {decode} from "html-entities";
-import {AiFillEdit, AiFillEye, BsFillTrashFill} from "react-icons/all";
+import {AiFillEdit, BsFillTrashFill} from "react-icons/all";
 
 
 const ProductTable = (props) => {
@@ -73,7 +73,7 @@ const ProductTable = (props) => {
                             // console.log(link.url),
                             <Pagination.Item
                                 disabled={link.url === null}
-                                // onClick={props.showUrl(link.ur)}
+                                onClick={props.showUrl(link.url)}
                                 active={link.active}
                             >
                                 <span>{decode(link.label)}</span>

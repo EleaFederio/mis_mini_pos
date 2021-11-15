@@ -104,11 +104,17 @@ const AddProductModal = (props) => {
     }
 
     const showURL = (url) => {
+        if(url === null){
+            url = '';
+        }
+        // console.log(productUrl +url)
+
         setProductEndPoint(productUrl + url);
         while(!productEndPoint){
 
         }
-        getProducts()
+        // getProducts()
+
         // console.log(productEndPoint);
     }
 
