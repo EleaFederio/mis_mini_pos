@@ -17,7 +17,6 @@ const DiscountComponent = (props) => {
     // ***** This Controls the CSV Reader Modal ***** //
     const [showCSVModal, setShowCSVModal] = useState(false);
     const [csvData, setCsvData] = useState({});
-    const [csvUploadError, setCsvUploadError] = useState('');
 
 
     const [discountData, setDiscountData] = useState({
@@ -27,7 +26,7 @@ const DiscountComponent = (props) => {
 
     const [discounts, setDiscounts] = useState();
     const [discountError, setDiscountError] = useState();
-    const [uploadButton,  setuUloadButton] = useState(true);
+    const [first, setFirst] = useState(true);
 
     const [pointer, setPointer] = useState();
 
@@ -90,6 +89,7 @@ const DiscountComponent = (props) => {
     }
 
     const readSpreadSheet = (file) => {
+        setFirst(false);
         const promise = new Promise((resolve, reject) => {
             const fileReader = new FileReader();
             fileReader.readAsArrayBuffer(file);
@@ -110,9 +110,11 @@ const DiscountComponent = (props) => {
 
         promise.then((datas) => {
             datas.map((data) => {
-               setDiscountError(!data.hasOwnProperty('name'))
+                setDiscountError(!data.hasOwnProperty('name'))
+                setDiscountError(!data.hasOwnProperty('percent'))
             });
             setCsvData(datas);
+            console.log(discountError);
         });
     }
 
@@ -129,25 +131,16 @@ const DiscountComponent = (props) => {
     }
 
     const openDiscountModal = () => {
+        console.log('Open Discount Modal')
         setShowCSVModal(true);
         setDiscountError(false)
-        setuUloadButton(true)
-    }
-
-    const showCSVModalComponent = () => {
-        setCsvUploadError('');
-        setShowCSVModal(true);
+        setFirst(true);
     }
 
     useEffect(() => {
         getDiscount();
-        if(discountError  === false){
-            setuUloadButton(false)
-        }else {
-            setuUloadButton(true)
-        }
-
-    }, [uploadButton, discountError])
+        console.log('Discount Error'+ first)
+    }, [discountError])
 
     return(
         <Fragment>
@@ -181,7 +174,12 @@ const DiscountComponent = (props) => {
                 <Modal.Body>
 
                     {/*  Form for CSV File  */}
-                    <Alert show={discountError} variant={'warning'}>Invalid Format</Alert>
+                    <Alert
+                        show={discountError}
+                        variant={'danger'}
+                    >
+                        Invalid Format or File!
+                    </Alert>
                     <Form.Group>
                         <Form.Label>CSV File</Form.Label>
                         <Form.Control
@@ -190,6 +188,7 @@ const DiscountComponent = (props) => {
                                 const file = event.target.files[0];
                                 readSpreadSheet(file)
                             }}
+                            name={'csvFile'}
                         />
                     </Form.Group>
 
@@ -200,7 +199,7 @@ const DiscountComponent = (props) => {
                         onClick={() => setShowCSVModal(false)}
                     >Close</Button>
                     <Button
-                        disabled={uploadButton}
+                        disabled={discountError === true ||  first === true ? true : false}
                         variant={'primary'}
                         onClick={uploadCsvData}
                     >Upload</Button>

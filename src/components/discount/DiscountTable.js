@@ -19,7 +19,7 @@ const DiscountTable = (props) => {
                     )
                     :
                     props.discounts.map((discount) => (
-                        <tr>
+                        <tr key={discount.id}>
                             <td className={'text-center'}>{ discount.name }</td>
                             <td className={'text-center'}>{ discount.percent }%</td>
                             <td className={'text-center'}>
