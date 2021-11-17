@@ -73,7 +73,7 @@ const ProductTable = (props) => {
                             // console.log(link.url),
                             <Pagination.Item
                                 disabled={link.url === null}
-                                onClick={props.showUrl(link.url)}
+                                onClick={() => props.showUrl(link.url)}
                                 active={link.active}
                             >
                                 <span>{decode(link.label)}</span>

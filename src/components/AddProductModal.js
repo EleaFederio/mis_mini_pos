@@ -107,13 +107,13 @@ const AddProductModal = (props) => {
         if(url === null){
             url = '';
         }
-        // console.log(productUrl +url)
+        console.log(productUrl +url)
 
         setProductEndPoint(productUrl + url);
         while(!productEndPoint){
 
         }
-        // getProducts()
+        getProducts()
 
         // console.log(productEndPoint);
     }
@@ -154,7 +154,7 @@ const AddProductModal = (props) => {
     useEffect(() => {
         getCategories();
         getProducts();
-    }, [])
+    }, [productEndPoint])
 
     return (
         <Container className={'mt-3'}>
