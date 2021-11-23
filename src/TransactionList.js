@@ -74,6 +74,10 @@ const TransactionList = (props) => {
                                           <Col>
                                               <p style={{marginBottom: 0}}><b>Total: </b>₱{transaction.total}</p>
                                           </Col>
+
+                                          <Col>
+                                              <p style={{marginBottom: 0}}><b>Discount: </b>{transaction.discountName} (%{transaction.discount})</p>
+                                          </Col>
                                       </Row>
                                       <Row>
                                           <Col>
@@ -84,6 +88,9 @@ const TransactionList = (props) => {
                                           </Col>
                                           <Col>
                                               <p><b>Date: </b>{transaction.created_at}</p>
+                                          </Col>
+                                          <Col>
+                                              {/*<p style={{marginBottom: 0}}><b>Discount: </b>{transaction.discountName} (%{transaction.discount})</p>*/}
                                           </Col>
                                       </Row>
                                       <Row>

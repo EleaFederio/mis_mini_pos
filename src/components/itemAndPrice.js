@@ -1,8 +1,26 @@
-import {Fragment} from "react";
-import {Button, Card, Col, Container, Form, Row} from "react-bootstrap";
+import {Fragment, useEffect, useState} from "react";
+import {Button, Card, Col, Container, Form, Row, Spinner} from "react-bootstrap";
 import SalesTable from "./cardComponents/salesTable";
+import axios from "axios";
 
 const ItemAndPrice = (props) => {
+    const [discountFormState, setDiscountFormState] = useState(true);
+    const [discounts, setDiscounts]  = useState();
+
+    const getDiscounts = () => {
+        axios.get(props.url + '/api/discount')
+            .then((result) => {
+                setDiscounts(result.data)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    useEffect(() => {
+        getDiscounts()
+        console.log(discounts)
+    }, [])
 
     return (
         <Fragment>
@@ -17,21 +35,66 @@ const ItemAndPrice = (props) => {
                 </Card.Body>
                 <Container>
                     <Row>
-                        <Col><b>TAX:</b></Col>
-                        <Col lg={3}><b>₱{props.summary.tax.toFixed(2).toLocaleString()}</b></Col>
-                    </Row>
-                    <Row>
-                        <Col><b>DISCOUNT:</b></Col>
-                        <Col lg={3}><b>₱{props.summary.discount.toFixed(2)}</b></Col>
+                        <Col lg={3}/>
+                        <Col lg={3}>
+                            <Button
+                                hidden={ props.summary.total === 0 ? true : false}
+                                active={discountFormState}
+                                variant={'secondary'}
+                                size={'sm'}
+                                onClick={() => {
+                                    setDiscountFormState(!discountFormState)
+                                }}
+                            >Add Discount</Button>
+                        </Col>
+                        <Col lg={3}>
+                            <Form.Group hidden={discountFormState}>
+                                <Form.Select
+                                    defaultValue={''}
+                                    size={'sm'}
+                                    onChange={(e) => {
+                                        props.setDiscount(e.target.value)
+                                        props.setDiscountName(e.target.options[e.target.selectedIndex].text)
+                                        console.log(props.summary)
+                                    }}
+                                >
+                                    {
+                                        !discounts ?
+                                            <Spinner animation={"grow"} />
+                                            :
+                                            discounts.map((discount) => (
+                                                <option
+                                                    key={discount.id}
+                                                    value={discount.percent}
+                                                    name={discount.name}
+                                                >
+                                                    {discount.name}
+                                                </option>
+                                            ))
+                                    }
+                                </Form.Select>
+                            </Form.Group>
+                        </Col>
+                        <Col lg={3}/>
                     </Row>
                     <Row>
                         <Col><b>SUB-TOTAL:</b></Col>
                         <Col lg={3}><b>₱{props.summary.subTotal.toFixed(2).toLocaleString()}</b></Col>
                     </Row>
                     <Row>
+                        <Col><b>TAX:</b></Col>
+                        <Col lg={3}><b>₱{props.summary.tax.toFixed(2).toLocaleString()}</b></Col>
+                    </Row>
+                    <Row>
+                        <Col><b>DISCOUNT:</b></Col>
+                        {/*<Col lg={3}><b>₱{props.summary.discount.toFixed(2)}</b></Col>*/}
+                        <Col lg={3}><b>% {props.discount}</b></Col>
+                    </Row>
+                    <Row>
                         <Col><b>TOTAL AMOUNT:</b></Col>
                         <Col lg={3}><b>₱{props.summary.total.toFixed(2)}</b></Col>
                     </Row>
+
                     <Row>
                         <Col lg={'6'}>
                             <Form.Group className={'mt-4'}>
