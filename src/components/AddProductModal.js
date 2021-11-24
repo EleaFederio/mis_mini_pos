@@ -2,18 +2,121 @@ import {Button, Col, Container, Form, Modal, Row} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import ProductTable from "./product_components/ProductTable";
+import {BsFillBagPlusFill} from "react-icons/all";
 
 const AddProductModal = (props) => {
 
+    const [productId, setProductId] = useState(0);
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState(0.0);
     const [category, setCategory] =useState(1);
+    const [cardTitle, setCardTitle] = useState('');
 
-    //***** Modal Controls *****//
+    //***** Add Product Modal Controls *****//
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    //***** Add Product Modal Controls *****//
+    const [productModal, setProductModal] = useState(false);
+    const productModalClose = () => setProductModal(false);
+    const productModalShow = () => setProductModal(true);
+
+    //***** Product Data & State *****//
+    const [products, setProducts] = useState([]);
+    const productUrl = props.url + '/api/products';
+    const [productEndPoint, setProductEndPoint] = useState(productUrl);
+
+    const getProducts = () => {
+        axios.get(productEndPoint)
+            .then(res => {
+                setProducts(res.data);
+                // console.log('++++++++++++++++++++++++++')
+                // console.log(products)
+            }).catch(err => {
+            // console.log(err)
+        });
+    }
+
+    const showModalAddProduct = () => {
+        handleShow();
+        setCardTitle('Add New Product');
+    }
+
+    const showModalUpdateDetails = (id) => {
+        setCardTitle('Update this Product');
+        axios.get(props.url + '/api/product/' + id)
+            .then(res => {
+                setProductId(res.data.product.id);
+                setName(res.data.product.name);
+                setDescription(res.data.product.description)
+                setPrice(res.data.product.price);
+                setCategory(res.data.product.category_id);
+            }).catch(err => {
+            console.log(err)
+        });
+        // console.log({
+        //     name : name,
+        //     description : description,
+        //     price : price,
+        //     category : category
+        // })
+        handleShow();
+    }
+
+    const closeModalUpdateProduct = () => {
+        setName('');
+        setDescription('');
+        setPrice(0);
+        setCategory(0)
+        handleClose();
+    }
+
+    const updateProduct = () => {
+        let data = {
+            'name' : name,
+            'description' : description,
+            'price' : price,
+            'category_id' : category
+        }
+        console.log(data);
+        axios.put(props.url + '/api/product/update/' + productId, data)
+            .then(res => {
+                setProducts(res.data);
+                setName('');
+                setDescription('');
+                setPrice(0);
+                setCategory(0)
+                handleClose()
+            }).catch(err => {
+                console.log(err)
+        })
+    }
+
+    const deleteProduct = (id) => {
+        axios.delete(props.url + '/api/product/' + id)
+            .then(res =>  {
+                setProducts(res.data);
+            }).catch(err => {
+                console.log(err)
+        })
+    }
+
+    const showURL = (url) => {
+        if(url === null){
+            url = '';
+        }
+        console.log(productUrl +url)
+
+        setProductEndPoint(productUrl + url);
+        while(!productEndPoint){
+
+        }
+        getProducts()
+
+        // console.log(productEndPoint);
+    }
 
     const getCategories = () => {
         axios.get(props.url + '/api/categories')
@@ -27,7 +130,7 @@ const AddProductModal = (props) => {
 
     const [categories, setCategories] = useState([]);
 
-    const addproduct = () => {
+    const addProduct = () => {
         let data = {
             'name' : name,
             'description' : description,
@@ -41,23 +144,29 @@ const AddProductModal = (props) => {
                 setDescription('');
                 setPrice(0);
                 setCategory(0)
-                handleClose()
+                handleClose();
+                getProducts();
             }).catch(err => {
             // console.log(err)
         });
     }
 
-
-
     useEffect(() => {
-        getCategories()
-    }, [])
+        getCategories();
+        getProducts();
+    }, [productEndPoint])
 
     return (
         <Container className={'mt-3'}>
-            <Button variant={"primary"} size={'sm'} onClick={handleShow}>Add Product</Button>
+            <Button variant={"primary"} onClick={showModalAddProduct}><BsFillBagPlusFill/> Add Product</Button>
 
-            <ProductTable url={props.url} />
+            <ProductTable
+                products={products}
+                showUrl={showURL}
+                productModalShow={productModalShow}
+                showModalUpdateDetails={showModalUpdateDetails}
+                deleteProduct={deleteProduct}
+            />
 
             {/* Add Product MOdal */}
             <Row className={'justify-content-center align-items-center'}>
@@ -68,7 +177,7 @@ const AddProductModal = (props) => {
                             justifyContent: "center",
                             alignItems: "center",
                         }}>
-                            <h5 className={'text-center'}>Add New Product</h5>
+                            <h5 className={'text-center'}>{cardTitle}</h5>
                         </Modal.Header>
                         <Modal.Body>
                             <Form>
@@ -103,7 +212,7 @@ const AddProductModal = (props) => {
                                     <Form.Label>Category</Form.Label>
                                     <Form.Select
                                         name={'category'}
-                                        defaultValue={category}
+                                        value={category}
                                         onChange={(e) => setCategory(e.target.value)}
                                     >
                                         {
@@ -121,8 +230,14 @@ const AddProductModal = (props) => {
                             </Form>
                         </Modal.Body>
                         <Modal.Footer>
-                            <Button variant={"secondary"} onClick={handleClose}>Cancel</Button>
-                            <Button variant={"primary"} onClick={addproduct}>Submit</Button>
+                            <Button
+                                variant={"secondary"}
+                                onClick={cardTitle === 'Update this Product' ? closeModalUpdateProduct : handleClose}
+                            >Cancel</Button>
+                            <Button
+                                variant={"primary"}
+                                onClick={cardTitle === 'Update this Product' ? updateProduct : addProduct}
+                            >Submit</Button>
                         </Modal.Footer>
                     </Modal>
                 </Col>

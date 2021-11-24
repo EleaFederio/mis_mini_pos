@@ -33,10 +33,10 @@ const ProductSearch = (props) => {
                 </Col>
                 <Col lg={2}/>
                 <Col lg={3}>
-                    <Form.Control type={'text'} placeholder={'Enter Product Code...'}/>
+                    {/*<Form.Control type={'text'} placeholder={'Enter Product Code...'}/>*/}
                 </Col>
                 <Col lg={2}>
-                    <Button variant={'primary'}>Search</Button>
+                    {/*<Button variant={'primary'}>Search</Button>*/}
                 </Col>
             </Row>
         </Form.Group>

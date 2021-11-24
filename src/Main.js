@@ -13,6 +13,8 @@ function Main(props) {
     const productUrl = props.url + '/api/product';
     const [cart, setCart] = useState([]);
     const [payment, setPayment] = useState('');
+    const [discount, setDiscount] = useState(0);
+    const [discountName, setDiscountName] = useState('');
     const [summary, setSummary] = useState({
         'tax'  : 0.00,
         'discount' : 0.00,
@@ -44,6 +46,10 @@ function Main(props) {
             }).catch(err => {
             // console.log(err)
         });
+    }
+
+    const choseDiscount  = () => {
+
     }
 
     const addToCart = (productFromProp) => {
@@ -79,7 +85,9 @@ function Main(props) {
         const data = {
             'payment' : payment,
             'totalPrice' : summary.subTotal,
-            'products' : product_list
+            'products' : product_list,
+            'discount' : parseInt(discount, discount),
+            'discountName' : discountName
         }
         console.log('pay cash process');
         console.log(data);
@@ -101,8 +109,9 @@ function Main(props) {
             'tax'  : 0.00,
             'discount' : 0.00,
             'subTotal' : 0.00,
-            'total' : 0.00
+            'total' : 0.00,
         });
+        setDiscount(0);
         setPayment('');
     }
 
@@ -127,14 +136,15 @@ function Main(props) {
         let tax = subTotal * 0.12;
         const data = {
             'tax'  : tax,
-            'discount' : 0.00,
+            'discount' : parseInt(discount, discount),
             'subTotal' : subTotal,
-            'total' : subTotal + tax
+            'total' :  subTotal + tax - ((subTotal + tax) * (discount * 0.01)) ,
+            'discountName' : discountName
         };
         setSummary(data);
         // console.log('Hahahahahahaha');
         // console.log(products)
-    }, [cart, productEndPoint]);
+    }, [cart, productEndPoint, discountName, discount]);
 
     return (
         <div>
@@ -190,10 +200,16 @@ function Main(props) {
                             cart={cart}
                             deleteProduct={deleteProduct}
                             summary={summary}
+                            setSummary={setSummary}
                             setPayment={setPayment}
                             payment={payment}
                             payCash={payCash}
                             cancelTransaction={cancelTransaction}
+                            url={props.url}
+                            discount={discount}
+                            setDiscount={setDiscount}
+                            discountName={discountName}
+                            setDiscountName={setDiscountName}
                         />
                     </Col>
                 </Row>

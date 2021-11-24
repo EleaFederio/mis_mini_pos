@@ -2,6 +2,7 @@ import {Fragment, useEffect, useState} from "react";
 import {Button, Card, Col, Container, Form, Modal, Row, Tab, Tabs} from "react-bootstrap";
 import axios from "axios";
 import AddProductModal from "./components/AddProductModal";
+import DiscountComponent from "./components/discount/DiscountComponent";
 
 const Add = (props) => {
 
@@ -35,7 +36,7 @@ const Add = (props) => {
                 <Tab eventKey={'discount'} title={'Discount'}>
                     <Card>
                         <Card.Body>
-                            <h1>Discount</h1>
+                            <DiscountComponent url={props.url} />
                         </Card.Body>
                     </Card>
                 </Tab>

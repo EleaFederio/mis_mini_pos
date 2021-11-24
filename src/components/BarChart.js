@@ -8,7 +8,7 @@ const BarChart = (props) => {
                     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',  'November', 'December'],
                     datasets: [
                         {
-                            label: 'Post System Sales in 1 Year',
+                            label: props.branchName + ' Branch',
                             data: props.data,
                             backgroundColor: 'rgba(54, 162, 235, 0.7)'
                         }

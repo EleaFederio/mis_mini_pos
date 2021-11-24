@@ -1,38 +1,10 @@
-import {Fragment, useEffect, useState} from "react";
-import {Button, Pagination, Spinner, Table} from "react-bootstrap";
-import axios from "axios";
-import ProductComponent from "../productComponent";
+import {Fragment} from "react";
+import {Button, Col, Pagination, Row, Spinner, Table} from "react-bootstrap";
 import {decode} from "html-entities";
+import {AiFillEdit, BsFillTrashFill} from "react-icons/all";
+
 
 const ProductTable = (props) => {
-
-    const [products, setProducts] = useState([]);
-    const productUrl = props.url + '/api/products';
-    const [productEndPoint, setProductEndPoint] = useState(productUrl);
-
-    const getProducts = () => {
-        axios.get(productEndPoint)
-            .then(res => {
-                setProducts(res.data);
-                // console.log('++++++++++++++++++++++++++')
-                // console.log(products)
-            }).catch(err => {
-            // console.log(err)
-        });
-    }
-
-    const showURL = (url) => {
-        setProductEndPoint(productUrl + url);
-        while(!productEndPoint){
-
-        }
-        getProducts()
-        // console.log(productEndPoint);
-    }
-
-    useEffect(() => {
-        getProducts()
-    }, [])
 
     return (
         <Fragment>
@@ -41,6 +13,7 @@ const ProductTable = (props) => {
                 <thead>
                     <tr>
                         <th className={'text-center'}>Name</th>
+                        <th className={'text-center'}>Description</th>
                         <th className={'text-center'}>Category</th>
                         <th className={'text-center'}>Price</th>
                         <th className={'text-center'}>Actions</th>
@@ -48,7 +21,7 @@ const ProductTable = (props) => {
                 </thead>
                 <tbody>
                 {
-                    !products.data ? (
+                    !props.products.data ? (
                         <Button disabled>
                             <Spinner
                                 as={'span'}
@@ -60,12 +33,34 @@ const ProductTable = (props) => {
                             Loading...
                         </Button>
                     ) :
-                        products.data.map((product) => (
+                        props.products.data.map((product) => (
                             <tr key={product.id}>
                                 <td className={'text-center'}>{product.name}</td>
+                                <td className={'text-center'}>{product.description}</td>
                                 <td className={'text-center'}>{product.category}</td>
-                                <td className={'text-center'}>{product.price}</td>
-                                <td className={'text-center'}></td>
+                                <td className={'text-center'}>₱{product.price}</td>
+                                <td className={'text-center'} width={180}>
+                                    <Row>
+                                        <Col>
+                                            <Button
+                                                variant={'secondary'}
+                                                size={'sm'}
+                                                onClick={() => props.showModalUpdateDetails(product.id)}
+                                            >
+                                                <AiFillEdit/>
+                                            </Button>
+                                        </Col>
+                                        <Col>
+                                            <Button
+                                                variant={'danger'}
+                                                size={'sm'}
+                                                onClick={() => props.deleteProduct(product.id)}
+                                            >
+                                                <BsFillTrashFill/>
+                                            </Button>
+                                        </Col>
+                                    </Row>
+                                </td>
                             </tr>
                         ))
                 }
@@ -73,11 +68,12 @@ const ProductTable = (props) => {
             </Table>
             <Pagination className={'mt-3'}>
                 {
-                    !products.links ? '' :
-                        products.links.map((link) => (
+                    !props.products.links ? '' :
+                        props.products.links.map((link) => (
+                            // console.log(link.url),
                             <Pagination.Item
                                 disabled={link.url === null}
-                                onClick={() => showURL(link.url)}
+                                onClick={() => props.showUrl(link.url)}
                                 active={link.active}
                             >
                                 <span>{decode(link.label)}</span>

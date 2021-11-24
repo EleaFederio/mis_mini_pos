@@ -34,10 +34,16 @@ const Report = (props) => {
                 <Row>
                     {
                         dataWareHouse.map((branch) => (
+
+                                console.log(branch)
+                            ,
                             <Col lg={6} className={'mt-2'} key={branch.id}>
                                 <Card>
                                     <Card.Body>
-                                        <BarChart data={branch} />
+                                        <BarChart
+                                            branchName={branch.branch}
+                                            data={branch.data}
+                                        />
                                     </Card.Body>
                                 </Card>
                             </Col>
