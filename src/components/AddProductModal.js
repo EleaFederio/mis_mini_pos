@@ -104,9 +104,12 @@ const AddProductModal = (props) => {
     }
 
     const showURL = (url) => {
-        if(url === null){
-            url = '';
-        }
+        // if(url === null){
+        //     u
+        // console.log(url)
+
+
+        url = url.substring(1)
         console.log(productUrl +url)
 
         setProductEndPoint(productUrl + url);
@@ -115,7 +118,7 @@ const AddProductModal = (props) => {
         }
         getProducts()
 
-        // console.log(productEndPoint);
+
     }
 
     const getCategories = () => {

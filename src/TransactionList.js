@@ -22,6 +22,7 @@ const TransactionList = (props) => {
     }
 
     const showURL = (url) => {
+        url  = url.substring(1);
         setTransactionEndPoint(transactionUrl + url);
         while(!setTransactionEndPoint){
 
