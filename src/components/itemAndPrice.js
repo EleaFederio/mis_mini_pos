@@ -44,6 +44,9 @@ const ItemAndPrice = (props) => {
                                 size={'sm'}
                                 onClick={() => {
                                     setDiscountFormState(!discountFormState)
+                                    discountFormState ? props.setDiscount(discounts[0].percent) : props.setDiscount(0)
+
+                                    // setDiscounts(discounts[0].percent)
                                 }}
                             >Add Discount</Button>
                         </Col>
