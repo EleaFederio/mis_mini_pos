@@ -37,7 +37,6 @@ function Main(props) {
     }
 
     const searchProduct = (url) => {
-        console.log(url);
         axios.get(url)
             .then(res => {
                 setProducts(res);
@@ -116,12 +115,14 @@ function Main(props) {
     }
 
     const showURL = (url) => {
+        url = url.substring(1)
+        console.log(url);
         setProductEndPoint(productUrl + url);
         while(!productEndPoint){
 
         }
         getProducts()
-        // console.log(productEndPoint);
+        console.log(productEndPoint);
     }
 
 
